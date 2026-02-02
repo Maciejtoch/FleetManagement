@@ -1,0 +1,17 @@
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Data\obj\Debug\net8.0\FleetManagement.Data.csproj.AssemblyReference.cache
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Data\obj\Debug\net8.0\FleetManagement.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Data\obj\Debug\net8.0\FleetManagement.Data.AssemblyInfoInputs.cache
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Data\obj\Debug\net8.0\FleetManagement.Data.AssemblyInfo.cs
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Data\obj\Debug\net8.0\FleetManagement.Data.csproj.CoreCompileInputs.cache
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Data\bin\Debug\net8.0\FleetManagement.Data.deps.json
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Data\bin\Debug\net8.0\FleetManagement.Data.runtimeconfig.json
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Data\bin\Debug\net8.0\FleetManagement.Data.dll
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Data\bin\Debug\net8.0\FleetManagement.Data.pdb
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Data\bin\Debug\net8.0\FleetManagement.Core.dll
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Data\bin\Debug\net8.0\FleetManagement.Core.pdb
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Data\obj\Debug\net8.0\FleetMan.46A72AD6.Up2Date
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Data\obj\Debug\net8.0\FleetManagement.Data.dll
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Data\obj\Debug\net8.0\refint\FleetManagement.Data.dll
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Data\obj\Debug\net8.0\FleetManagement.Data.pdb
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Data\obj\Debug\net8.0\FleetManagement.Data.genruntimeconfig.cache
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Data\obj\Debug\net8.0\ref\FleetManagement.Data.dll
