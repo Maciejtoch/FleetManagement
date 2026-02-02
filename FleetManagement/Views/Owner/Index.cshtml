@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Owner Dashboard";
+}
+
+<h2>Vehicle Location</h2>
+
+<div class="owner-map-container" style="max-width:600px; margin:auto; position:relative;">
+    <!-- MAPA -->
+    <div id="map" style="height:300px; width:100%; border:1px solid #ccc;"></div>
+
+    <!-- PRZYCISK NAD MAPĄ -->
+    <button id="requestLocationBtn"
+            class="btn btn-warning"
+            style="position:absolute; top:10px; right:10px; z-index:1000;">
+        📍 Request location (30 min)
+    </button>
+</div>
+
+<!-- LEAFLET CSS i JS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- TWÓJ JS MAPY -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // inicjalizacja mapy dopiero po załadowaniu DOM
+        const map = L.map('map').setView([50.3, 19.0], 8);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Naprawa problemu z niepełnym renderowaniem
+        setTimeout(() => map.invalidateSize(), 200);
+
+        let marker = null;
+
+        function refreshLocation(vehicleId) {
+            fetch(`/Location/Latest?vehicleId=${vehicleId}`)
+                .then(r => r.json())
+                .then(loc => {
+                    if (!loc) return;
+                    if (marker) map.removeLayer(marker);
+                    marker = L.marker([loc.latitude, loc.longitude]).addTo(map);
+                    map.setView([loc.latitude, loc.longitude], 13);
+                });
+        }
+
+        setInterval(() => refreshLocation(12), 10000);
+
+        // Przycisk Request Location
+        document.getElementById("requestLocationBtn").addEventListener("click", function() {
+            fetch('/Location/Request', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ vehicleId: 12, minutes: 30 })
+            });
+        });
+    });
+</script>

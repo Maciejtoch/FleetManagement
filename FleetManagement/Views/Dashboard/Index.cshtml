@@ -1,0 +1,28 @@
+﻿@model FleetManagement.Core.Models.AppUser
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h2>Dashboard</h2>
+<p>Zalogowany jako: <strong>@User.Identity.Name</strong></p>
+
+@if (User.IsInRole("Owner"))
+{
+    @await Html.PartialAsync("_OwnerDashboard")
+}
+else if (User.IsInRole("User"))
+{
+    @await Html.PartialAsync("_UserDashboard")
+}
+
+@if (Model.Vehicle != null)
+{
+    
+}
+else
+{
+    <div class="alert alert-warning">
+        Nie masz przypisanego pojazdu
+    </div>
+}

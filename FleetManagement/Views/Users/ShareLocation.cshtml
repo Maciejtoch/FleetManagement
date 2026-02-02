@@ -1,0 +1,19 @@
+﻿@using FleetManagement.Core.Models
+@model LocationShareSession
+
+
+@if (Model == null)
+{
+    <p>No active location request.</p>
+}
+else
+{
+    <h3>📡 Share location</h3>
+    <p>Active until: @Model.ExpiresAt.ToLocalTime()</p>
+
+    <button class="btn btn-primary" onclick="startSharing()">
+        Share now
+    </button>
+
+    <script src="/js/location-share.js"></script>
+}

@@ -1,0 +1,44 @@
+﻿@page
+@model FleetManagement.Areas.Identity.Pages.Account.LoginModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>FleetManagement – Login</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+</head>
+<body class="bg-light">
+    <div class="d-flex justify-content-center align-items-center vh-100">
+        <div class="card shadow p-4" style="width: 360px;">
+
+            <div class="text-center mb-4">
+                <img src="~/images/logo.png" alt="FleetManagement" height="60" />
+                <h4 class="mt-3">FleetManagement</h4>
+            </div>
+
+            <form method="post">
+                <div class="mb-3">
+                    <label asp-for="Input.Email" class="form-label"></label>
+                    <input asp-for="Input.Email" class="form-control" />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Input.Password" class="form-label"></label>
+                    <input asp-for="Input.Password" class="form-control" />
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100">
+                    Sign in
+                </button>
+
+                <div asp-validation-summary="ModelOnly" class="text-danger mt-3"></div>
+            </form>
+
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+﻿@model FleetManagement.Core.Models.ServiceRecord
+
+<h2>🗑 Delete Service Record</h2>
+
+<div class="alert alert-danger">
+    Are you sure you want to delete this service record?
+</div>
+
+<ul class="list-group mb-3">
+    <li class="list-group-item"><b>Vehicle:</b> @Model.Vehicle?.RegistrationNumber</li>
+    <li class="list-group-item"><b>Date:</b> @Model.ServiceDate.ToShortDateString()</li>
+    <li class="list-group-item"><b>Description:</b> @Model.Description</li>
+</ul>
+
+<form asp-action="Delete" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+
+    <button class="btn btn-danger">🗑 Delete</button>
+    <a asp-action="Index" class="btn btn-secondary ms-2">Cancel</a>
+</form>

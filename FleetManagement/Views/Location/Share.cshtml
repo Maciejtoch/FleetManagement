@@ -1,0 +1,44 @@
+﻿@using FleetManagement.Core.Models
+@model LocationShareSession
+
+<h2>User Dashboard</h2>
+
+@if (Model == null)
+{
+    <p>No active location request from owner.</p>
+}
+else
+{
+    <div class="mb-2">
+        <p>Owner requested your location until: @Model.ExpiresAt.ToLocalTime()</p>
+        <button id="shareLocationBtn" class="btn btn-primary">
+            📡 Share my location
+        </button>
+    </div>
+
+    <script>
+        document.getElementById("shareLocationBtn").addEventListener("click", function() {
+            if (!navigator.geolocation) {
+                alert("Geolocation not supported by your browser");
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+                pos => {
+                    fetch('/Location/Report', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            latitude: pos.coords.latitude,
+                            longitude: pos.coords.longitude
+                        })
+                    }).then(() => {
+                        alert("Location sent to owner!");
+                        document.getElementById("shareLocationBtn").disabled = true;
+                    });
+                },
+                err => alert("Permission denied or unable to get location")
+            );
+        });
+    </script>
+}

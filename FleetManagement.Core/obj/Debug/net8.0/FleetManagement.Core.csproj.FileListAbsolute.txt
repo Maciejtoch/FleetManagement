@@ -1,0 +1,12 @@
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Core\bin\Debug\net8.0\FleetManagement.Core.deps.json
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Core\bin\Debug\net8.0\FleetManagement.Core.dll
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Core\bin\Debug\net8.0\FleetManagement.Core.pdb
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Core\obj\Debug\net8.0\FleetManagement.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Core\obj\Debug\net8.0\FleetManagement.Core.AssemblyInfoInputs.cache
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Core\obj\Debug\net8.0\FleetManagement.Core.AssemblyInfo.cs
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Core\obj\Debug\net8.0\FleetManagement.Core.csproj.CoreCompileInputs.cache
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Core\obj\Debug\net8.0\FleetManagement.Core.dll
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Core\obj\Debug\net8.0\refint\FleetManagement.Core.dll
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Core\obj\Debug\net8.0\FleetManagement.Core.pdb
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Core\obj\Debug\net8.0\ref\FleetManagement.Core.dll
+C:\Users\tocho\source\repos\FleetManagement\FleetManagement.Core\obj\Debug\net8.0\FleetManagement.Core.csproj.AssemblyReference.cache

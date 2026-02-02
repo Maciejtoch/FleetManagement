@@ -1,0 +1,31 @@
+﻿@model IEnumerable<FleetManagement.Core.Models.DailyReport>
+
+<h2>📊 Daily Reports – All Users</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>User</th>
+            <th>Vehicle</th>
+            <th>Mileage</th>
+            <th>Stops</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var r in Model)
+        {
+            <tr>
+                <td>@r.Date.ToShortDateString()</td>
+                <td>@r.User.Email</td>
+                <td>@r.Vehicle.RegistrationNumber</td>
+                <td>@r.Mileage</td>
+                <td>@r.Stops.Count()</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@r.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>

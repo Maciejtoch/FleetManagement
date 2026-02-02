@@ -1,0 +1,82 @@
+﻿<div class="row mt-4">
+    <div class="col-md-4">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">🚗 Vehicles</h5>
+                <p class="card-text">Zarządzaj flotą pojazdów</p>
+                <a asp-controller="Vehicles" asp-action="Index" class="btn btn-primary w-100">
+                    Open
+                </a>             
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title">👤 Users</h5>
+                <p class="card-text">Zarządzaj użytkownikami</p>
+                <a asp-controller="Users" asp-action="Index"
+                   class="btn btn-primary w-100">
+                    Open
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title">📍 Stops</h5>
+                <p class="card-text">Zarządzaj przystankami</p>
+                <a asp-controller="Stops" asp-action="Index"
+                   class="btn btn-primary w-100">
+                    Open
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title">📊 Daily Reports</h5>
+                <p class="card-text">Historia tras użytkowników</p>
+                <a asp-controller="OwnerReports"
+                   asp-action="Index"
+                   class="btn btn-primary w-100">
+                    Open
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title">📊 Service history</h5>
+                <p class="card-text">Historia serwisowa pojazdów</p>
+                <a asp-controller="ServiceRecords"
+                   asp-action="Index"
+                   class="btn btn-primary w-100">
+                    Open
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title">📊 Vehicle Location</h5>
+                <p class="card-text">Lokalizacja pojazdu</p>
+                <a asp-controller="Owner"
+                   asp-action="Index"
+                   class="btn btn-primary w-100">
+                    Open
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>

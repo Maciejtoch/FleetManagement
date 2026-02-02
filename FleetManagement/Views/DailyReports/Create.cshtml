@@ -1,0 +1,55 @@
+﻿@model FleetManagement.Models.DailyReportViewModel
+
+@{
+    ViewData["Title"] = "Daily Report";
+}
+
+<h2>Daily Report</h2>
+
+<form asp-controller="DailyReports"
+      asp-action="Create"
+      method="post">
+
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" asp-for="VehicleId" />
+
+    <div class="mb-3">
+        <label class="form-label">Vehicle</label>
+        <input class="form-control"
+               value="@Model.VehicleRegistration"
+               disabled />
+    </div>
+
+    <div class="mb-3">
+        <label>Stops</label>
+        @foreach (var stop in Model.Stops)
+        {
+            <div class="form-check">
+                <input class="form-check-input"
+                       type="checkbox"
+                       name="SelectedStopIds"
+                       value="@stop.Id" />
+                @(Model.SelectedStopIds.Contains(stop.Id) ? "checked" : "") />
+                <label class="form-check-label">
+                    @stop.CompanyName – @stop.Address
+                </label>
+            </div>
+        }
+    </div>
+
+    <div class="mb-3">
+        <label>Mileage</label>
+        <input asp-for="Mileage" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Notes</label>
+        <textarea asp-for="Notes" class="form-control"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-success">
+        Save
+    </button>
+</form>
+

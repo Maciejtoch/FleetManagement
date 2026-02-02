@@ -1,0 +1,12 @@
+﻿bin/
+obj/
+.vs/
+
+*.user
+*.suo
+
+fleet.db
+fleet.db-shm
+fleet.db-wal
+
+appsettings.Development.json
