@@ -1,10 +1,9 @@
-﻿const map = L.map('map').setView([50.3, 19.0], 8);
+﻿const map = L.map('map').setView([50.2649, 19.0238], 13);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap contributors'
 }).addTo(map);
 
-// wymuszenie przeliczenia rozmiaru mapy po załadowaniu
 setTimeout(() => map.invalidateSize(), 100);
 
 let marker = null;
@@ -29,5 +28,4 @@ function refreshLocation(vehicleId) {
         });
 }
 
-// odświeżanie co 10s
 setInterval(() => refreshLocation(12), 10000);

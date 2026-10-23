@@ -8,17 +8,42 @@
     <tr>
         <th>Company</th>
         <th>Address</th>
-        <th></th>
+        <th>Status</th>
+        <th>Actions</th>
     </tr>
+
     @foreach (var s in Model)
     {
         <tr>
             <td>@s.CompanyName</td>
             <td>@s.Address</td>
+
+            <td>
+                @if (!s.IsOnMap)
+                {
+                    <a asp-action="AddToMap" asp-route-id="@s.Id" class="btn btn-sm btn-outline-primary">
+                        Add to map
+                    </a>
+                }
+                else
+                {
+                    <a asp-action="RemoveFromMap" asp-route-id="@s.Id" class="btn btn-sm btn-outline-danger">
+                        Remove
+                    </a>
+                }
+            </td>
+
             <td>
                 <a asp-action="Details" asp-route-id="@s.Id">Details</a> |
                 <a asp-action="Edit" asp-route-id="@s.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@s.Id">Delete</a>
+                <a asp-action="Delete" asp-route-id="@s.Id">Delete</a> |
+
+                @if (!s.IsOnMap)
+                {
+                    <a asp-action="AddToMap" asp-route-id="@s.Id" class="btn btn-sm btn-outline-primary">
+                        Add to map
+                    </a>
+                }
             </td>
         </tr>
     }

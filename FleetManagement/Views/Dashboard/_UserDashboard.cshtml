@@ -1,41 +1,14 @@
 ﻿@model FleetManagement.Core.Models.AppUser
 
-<div class="card mt-4 shadow-sm">
-    <div class="card-header">
-        🚗 Your Vehicle <span class="fs-5">@Model.Vehicle.RegistrationNumber</span>
-    </div>
-    <div class="card-body">
-        @if (Model.Vehicle != null)
-        {
-            //<div class="mb-3">
-                //<strong>Registration:</strong><br />
-                //<span class="fs-5">@Model.Vehicle.RegistrationNumber</span>
-           // </div>
+@if (Model.Vehicle != null)
+{
+    <p class="text-black">
+        Your assigned vehicle:
+        <strong>@Model.Vehicle.RegistrationNumber</strong>
+    </p>
+}
+else
+{
+    <p class="text-warning">No vehicle assigned.</p>
+}
 
-            <a asp-controller="DailyReports"
-               asp-action="Create"
-               class="btn btn-success w-100">
-                📝 Create Daily Report
-            </a>
-
-            <a asp-controller="DailyReports"
-               asp-action="Index"
-               class="btn btn-outline-primary w-100 mt-2">
-                📜 Daily Reports History
-            </a>
-
-           
-
-        }
-        else
-        {
-            <div class="alert alert-warning">
-                No vehicle assigned. Contact owner.
-            </div>
-        }
-
-
-
-
-    </div>
-</div>

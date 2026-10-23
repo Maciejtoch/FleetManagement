@@ -20,7 +20,6 @@ namespace FleetManagement.Controllers
             _userManager = userManager;
         }
 
-        // OWNER
         [Authorize(Roles = "Owner")]
         [HttpPost]
         public async Task<IActionResult> Request([FromBody] LocationRequestDto dto)
@@ -38,7 +37,6 @@ namespace FleetManagement.Controllers
             return Ok();
         }
 
-        // USER
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Report([FromBody] VehicleLocation dto)
@@ -63,7 +61,6 @@ namespace FleetManagement.Controllers
             return Ok();
         }
 
-        // OWNER
         [Authorize(Roles = "Owner")]
         public async Task<IActionResult> Latest(int vehicleId)
         {
@@ -77,10 +74,5 @@ namespace FleetManagement.Controllers
 
             return Json(new { loc.Latitude, loc.Longitude });
         }
-
-       
-
     }
-
-
 }

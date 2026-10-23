@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace FleetManagement.Controllers
 {
     public class OwnerReportsController : Controller

@@ -51,6 +51,16 @@ using (var scope = app.Services.CreateScope())
     await DbInitializer.SeedRolesAndAdminAsync(services);
 }
 
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx =>
+    {
+        ctx.Context.Response.Headers["Cache-Control"] = "no-cache, no-store";
+        ctx.Context.Response.Headers["Pragma"] = "no-cache";
+        ctx.Context.Response.Headers["Expires"] = "-1";
+    }
+});
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();

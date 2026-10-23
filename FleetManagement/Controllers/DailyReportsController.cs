@@ -11,6 +11,15 @@ namespace FleetManagement.Controllers
     [Authorize(Roles = "User,Owner")]
     public class DailyReportsController : Controller
     {
+        private readonly UserManager<AppUser> _userManager;
+        private readonly AppDbContext _context;
+
+        public DailyReportsController(UserManager<AppUser> userManager, AppDbContext context)
+        {
+            _userManager = userManager;
+            _context = context;
+        }
+
         public async Task<IActionResult> Create()
         {
             var user = await _userManager.Users
@@ -39,8 +48,8 @@ namespace FleetManagement.Controllers
             if (!ModelState.IsValid)
             {
                 var errors = ModelState
-        .Where(x => x.Value.Errors.Count > 0)
-        .Select(x => $"{x.Key}: {string.Join(", ", x.Value.Errors.Select(e => e.ErrorMessage))}");
+                .Where(x => x.Value.Errors.Count > 0)
+                .Select(x => $"{x.Key}: {string.Join(", ", x.Value.Errors.Select(e => e.ErrorMessage))}");
 
                 throw new Exception("MODELSTATE INVALID: " + string.Join(" | ", errors));
             }
@@ -112,17 +121,5 @@ namespace FleetManagement.Controllers
 
             return View(report);
         }
-
-
-
-        private readonly UserManager<AppUser> _userManager;
-        private readonly AppDbContext _context;
-
-        public DailyReportsController(UserManager<AppUser> userManager, AppDbContext context)
-        {
-            _userManager = userManager;
-            _context = context;
-        }
     }
-
 }

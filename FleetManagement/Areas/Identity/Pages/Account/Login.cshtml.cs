@@ -23,11 +23,13 @@ namespace FleetManagement.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<AppUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly UserManager<AppUser> _userManager;
 
-        public LoginModel(SignInManager<AppUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<AppUser> signInManager, ILogger<LoginModel> logger, UserManager<AppUser> userManager)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _userManager = userManager;
         }
 
         [BindProperty]
@@ -72,6 +74,8 @@ namespace FleetManagement.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            returnUrl ??= Url.Content("~/");
+
             if (!ModelState.IsValid)
                 return Page();
 
@@ -83,7 +87,14 @@ namespace FleetManagement.Areas.Identity.Pages.Account
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Index", "Dashboard");
+                var user = await _userManager.FindByEmailAsync(Input.Email);
+
+                if (user != null && user.MustChangePassword)
+                {
+                    return RedirectToPage("/Account/ForceChangePassword");
+                }
+
+                return LocalRedirect(returnUrl);
             }
 
             ModelState.AddModelError(string.Empty, "Invalid login attempt.");

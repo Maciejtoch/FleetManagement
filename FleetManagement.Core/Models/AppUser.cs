@@ -12,6 +12,7 @@ namespace FleetManagement.Core.Models
         public string? FullName { get; set; }
         public int? VehicleId { get; set; }
         public Vehicle? Vehicle { get; set; }
+        public bool MustChangePassword { get; set; } = false;
     }
 }
 

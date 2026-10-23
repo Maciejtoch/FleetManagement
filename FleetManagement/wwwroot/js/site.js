@@ -1,4 +1,10 @@
-﻿// Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿document.querySelectorAll('.sidebar-nav a').forEach(link => {
+    link.addEventListener('click', e => {
+        e.preventDefault();
+        document.body.classList.add('page-leave');
 
-// Write your JavaScript code.
+        setTimeout(() => {
+            window.location = link.href;
+        }, 200);
+    });
+});

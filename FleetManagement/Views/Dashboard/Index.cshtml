@@ -1,5 +1,4 @@
 ﻿@model FleetManagement.Core.Models.AppUser
-
 @{
     ViewData["Title"] = "Dashboard";
 }
@@ -10,19 +9,48 @@
 @if (User.IsInRole("Owner"))
 {
     @await Html.PartialAsync("_OwnerDashboard")
+
+    <div class="row g-4 mt-2">
+        <div class="col-12">
+            <div class="card shadow p-3">
+                <h4>Mapa przystanków</h4>
+                <div id="map" style="height:400px; width:100%;"></div>
+            </div>
+        </div>
+    </div>
 }
 else if (User.IsInRole("User"))
 {
     @await Html.PartialAsync("_UserDashboard")
 }
 
-@if (Model.Vehicle != null)
-{
-    
-}
-else
-{
-    <div class="alert alert-warning">
-        Nie masz przypisanego pojazdu
-    </div>
+@section Scripts {
+    @if (User.IsInRole("Owner"))
+    {
+        <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+        <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+        <script>
+            const mapElement = document.getElementById('map');
+
+            if (mapElement) {
+                const map = L.map('map').setView([52.237, 21.017], 7);
+
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '© OpenStreetMap'
+                }).addTo(map);
+
+                // Pobranie punktów z serwera
+                fetch('/Stops/GetMapStops')
+                    .then(res => res.json())
+                    .then(stops => {
+                        stops.forEach(stop => {
+                            L.marker([stop.latitude, stop.longitude])
+                                .addTo(map)
+                                .bindPopup(`<b>${stop.companyName}</b><br>${stop.address}`);
+                        });
+                    });
+            }
+        </script>
+    }
 }

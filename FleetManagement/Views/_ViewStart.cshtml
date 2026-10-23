@@ -1,3 +1,19 @@
-﻿@{
-    Layout = "_Layout";
+﻿@using Microsoft.AspNetCore.Identity
+@using FleetManagement.Core.Models
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+@{
+    if (User.IsInRole("Owner"))
+    {
+        Layout = "_LayoutOwner";
+    }
+    else if (User.IsInRole("User"))
+    {
+        Layout = "_LayoutUser";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
 }

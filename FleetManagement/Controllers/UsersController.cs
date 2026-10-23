@@ -91,7 +91,8 @@ namespace FleetManagement.Controllers
                 UserName = model.Email,
                 Email = model.Email,
                 FullName = model.FullName,
-                EmailConfirmed = true
+                EmailConfirmed = true,
+                MustChangePassword = true
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);

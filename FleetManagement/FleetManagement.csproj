@@ -26,4 +26,8 @@
     <ProjectReference Include="..\FleetManagement.Data\FleetManagement.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
 </Project>

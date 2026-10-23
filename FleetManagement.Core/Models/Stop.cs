@@ -15,5 +15,10 @@ namespace FleetManagement.Core.Models
         public string CompanyName { get; set; }
         [Required]
         public string Address { get; set; }
+
+        public bool IsOnMap { get; set; } = false;
+
+        public double? Latitude { get; set; }
+        public double? Longitude { get; set; }
     }
 }

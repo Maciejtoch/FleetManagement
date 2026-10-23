@@ -20,17 +20,16 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
-<!-- TWÓJ JS MAPY -->
+<!-- JS MAPY -->
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        // inicjalizacja mapy dopiero po załadowaniu DOM
+        // inicjalizacja mapy dopiero po załadowaniu
         const map = L.map('map').setView([50.3, 19.0], 8);
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
-        // Naprawa problemu z niepełnym renderowaniem
         setTimeout(() => map.invalidateSize(), 200);
 
         let marker = null;
