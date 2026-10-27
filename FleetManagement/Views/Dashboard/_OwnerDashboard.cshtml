@@ -1,1 +1,85 @@
-﻿
+@using System.Linq
+@using FleetManagement.Core.Models
+@{
+    var recentReports = ViewBag.RecentReports as IEnumerable<DailyReport> ?? Enumerable.Empty<DailyReport>();
+}
+
+<div class="dashboard-grid">
+    <div class="stat-card">
+        <div class="stat-label">Vehicles</div>
+        <div class="stat-value">@ViewBag.VehicleCount</div>
+        <div class="stat-trend positive">Fleet overview</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Users</div>
+        <div class="stat-value">@ViewBag.UserCount</div>
+        <div class="stat-trend positive">Active accounts</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Stops</div>
+        <div class="stat-value">@ViewBag.StopCount</div>
+        <div class="stat-trend positive">On the map</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Reports</div>
+        <div class="stat-value">@ViewBag.ReportCount</div>
+        <div class="stat-trend positive">This month</div>
+    </div>
+</div>
+
+<div class="dashboard-panel-grid">
+    <div class="dashboard-card dashboard-card-large">
+        <div class="card-header-row">
+            <h4>Recent activity</h4>
+            <a asp-controller="OwnerReports" asp-action="Index" class="btn btn-link btn-link-inline">View all</a>
+        </div>
+
+        @if (recentReports.Any())
+        {
+            <div class="mini-list">
+                @foreach (var report in recentReports)
+                {
+                    <div class="mini-list-item">
+                        <div>
+                            <strong>@report.User?.Email</strong>
+                            <small>@report.Vehicle?.RegistrationNumber</small>
+                        </div>
+                        <div class="text-end">
+                            <span>@report.Date.ToString("dd.MM.yyyy")</span>
+                            <small>@report.GetTripDurationDisplay()</small>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="empty-state">No reports yet.</div>
+        }
+    </div>
+
+    <div class="dashboard-card">
+        <div class="card-header-row">
+            <h4>Quick actions</h4>
+        </div>
+
+        <div class="quick-actions">
+            <a asp-controller="Vehicles" asp-action="Create" class="action-tile primary">
+                <i class="bi bi-truck-front"></i>
+                <span>New vehicle</span>
+            </a>
+            <a asp-controller="Stops" asp-action="Create" class="action-tile">
+                <i class="bi bi-geo-alt"></i>
+                <span>Add stop</span>
+            </a>
+            <a asp-controller="ServiceRecords" asp-action="Create" class="action-tile">
+                <i class="bi bi-tools"></i>
+                <span>Service</span>
+            </a>
+            <a asp-controller="OwnerReports" asp-action="Index" class="action-tile">
+                <i class="bi bi-bar-chart"></i>
+                <span>Reports</span>
+            </a>
+        </div>
+    </div>
+</div>

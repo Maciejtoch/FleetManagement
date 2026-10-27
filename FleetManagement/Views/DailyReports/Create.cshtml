@@ -1,55 +1,71 @@
-﻿@model FleetManagement.Models.DailyReportViewModel
+@model FleetManagement.Models.DailyReportViewModel
 
 @{
     ViewData["Title"] = "Daily Report";
 }
 
-<h2>Daily Report</h2>
-
-<form asp-controller="DailyReports"
-      asp-action="Create"
-      method="post">
-
-    @Html.AntiForgeryToken()
-
-    <input type="hidden" asp-for="VehicleId" />
-
-    <div class="mb-3">
-        <label class="form-label">Vehicle</label>
-        <input class="form-control"
-               value="@Model.VehicleRegistration"
-               disabled />
+<div class="page-heading">
+    <div>
+        <h1 class="page-title">Daily Report</h1>
+        <p class="page-subtitle">Add route information for the selected vehicle.</p>
     </div>
+</div>
 
-    <div class="mb-3">
-        <label>Stops</label>
-        @foreach (var stop in Model.Stops)
-        {
-            <div class="form-check">
-                <input class="form-check-input"
-                       type="checkbox"
-                       name="SelectedStopIds"
-                       value="@stop.Id" />
-                @(Model.SelectedStopIds.Contains(stop.Id) ? "checked" : "") />
-                <label class="form-check-label">
-                    @stop.CompanyName – @stop.Address
-                </label>
+<div class="card form-card">
+    <div class="card-body">
+        <form asp-controller="DailyReports" asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" asp-for="VehicleId" />
+
+            <div class="mb-3">
+                <label class="form-label">Vehicle</label>
+                <input class="form-control" value="@Model.VehicleRegistration" disabled />
             </div>
-        }
+
+            <div class="mb-3">
+                <label class="form-label">Trip duration (minutes)</label>
+                <input asp-for="TripDurationMinutes" class="form-control" type="number" min="0" step="5" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Stops</label>
+                @foreach (var stop in Model.Stops)
+                {
+                    var isChecked = Model.SelectedStopIds.Contains(stop.Id);
+                    <div class="form-check">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               name="SelectedStopIds"
+                               value="@stop.Id"
+                               checked="@(isChecked ? "checked" : null)" />
+                        <label class="form-check-label">
+                            @stop.CompanyName – @stop.Address
+                        </label>
+                    </div>
+                }
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Mileage" class="form-label">Mileage</label>
+                <input asp-for="Mileage" class="form-control" type="number" min="0" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Notes" class="form-label">Notes</label>
+                <textarea asp-for="Notes" class="form-control" rows="4"></textarea>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-lg"></i>
+                    Save report
+                </button>
+                <a asp-action="Index" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i>
+                    Back to list
+                </a>
+            </div>
+        </form>
     </div>
-
-    <div class="mb-3">
-        <label>Mileage</label>
-        <input asp-for="Mileage" class="form-control" />
-    </div>
-
-    <div class="mb-3">
-        <label>Notes</label>
-        <textarea asp-for="Notes" class="form-control"></textarea>
-    </div>
-
-    <button type="submit" class="btn btn-success">
-        Save
-    </button>
-</form>
-
+</div>

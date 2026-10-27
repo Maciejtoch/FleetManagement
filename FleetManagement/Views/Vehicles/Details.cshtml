@@ -1,54 +1,40 @@
-﻿@model FleetManagement.Core.Models.Vehicle
+@model FleetManagement.Core.Models.Vehicle
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Vehicle details";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Vehicle</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RegistrationNumber)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RegistrationNumber)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Make)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Make)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Model)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Model)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Year)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Year)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Mileage)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Mileage)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VIN)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VIN)
-        </dd>
-    </dl>
+<div class="page-heading">
+    <div>
+        <h1 class="page-title">Vehicle details</h1>
+        <p class="page-subtitle">Overview of the selected fleet asset.</p>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="card dashboard-card">
+    <div class="card-body">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="info-row"><span class="text-muted">Registration number</span><strong>@Model.RegistrationNumber</strong></div>
+                <div class="info-row"><span class="text-muted">Make</span><strong>@Model.Make</strong></div>
+                <div class="info-row"><span class="text-muted">Model</span><strong>@Model.Model</strong></div>
+            </div>
+            <div class="col-md-6">
+                <div class="info-row"><span class="text-muted">Year</span><strong>@Model.Year</strong></div>
+                <div class="info-row"><span class="text-muted">Mileage</span><strong>@Model.Mileage km</strong></div>
+                <div class="info-row"><span class="text-muted">VIN</span><strong>@Model.VIN</strong></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4 d-flex gap-2">
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">
+        <i class="bi bi-pencil-square"></i>
+        Edit
+    </a>
+    <a asp-action="Index" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i>
+        Back to list
+    </a>
 </div>

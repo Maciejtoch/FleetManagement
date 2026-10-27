@@ -1,50 +1,78 @@
 ﻿@model IEnumerable<FleetManagement.Core.Models.Stop>
 
-<h2>Stops</h2>
+@{
+    ViewData["Title"] = "Stops";
+}
 
-<a asp-action="Create" class="btn btn-primary mb-3">➕ Add Stop</a>
+<div class="page-heading">
+    <div>
+        <h1 class="page-title">Stops</h1>
+        <p class="page-subtitle">Manage delivery and service stop locations.</p>
+    </div>
 
-<table class="table">
-    <tr>
-        <th>Company</th>
-        <th>Address</th>
-        <th>Status</th>
-        <th>Actions</th>
-    </tr>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i>
+        Add stop
+    </a>
+</div>
 
-    @foreach (var s in Model)
-    {
-        <tr>
-            <td>@s.CompanyName</td>
-            <td>@s.Address</td>
+<div class="table-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Company</th>
+                <th>Address</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var stop in Model)
+            {
+                <tr>
+                    <td>@stop.CompanyName</td>
+                    <td>@stop.Address</td>
+                    <td>
+                        @if (stop.IsOnMap)
+                        {
+                            <span class="status-badge status-active">On map</span>
+                        }
+                        else
+                        {
+                            <span class="status-badge status-disabled">Not mapped</span>
+                        }
+                    </td>
+                    <td class="table-actions">
+                        <a asp-action="Details" asp-route-id="@stop.Id" class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-eye"></i>
+                            Details
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@stop.Id" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-pencil"></i>
+                            Edit
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@stop.Id" class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash"></i>
+                            Delete
+                        </a>
 
-            <td>
-                @if (!s.IsOnMap)
-                {
-                    <a asp-action="AddToMap" asp-route-id="@s.Id" class="btn btn-sm btn-outline-primary">
-                        Add to map
-                    </a>
-                }
-                else
-                {
-                    <a asp-action="RemoveFromMap" asp-route-id="@s.Id" class="btn btn-sm btn-outline-danger">
-                        Remove
-                    </a>
-                }
-            </td>
-
-            <td>
-                <a asp-action="Details" asp-route-id="@s.Id">Details</a> |
-                <a asp-action="Edit" asp-route-id="@s.Id">Edit</a> |
-                <a asp-action="Delete" asp-route-id="@s.Id">Delete</a> |
-
-                @if (!s.IsOnMap)
-                {
-                    <a asp-action="AddToMap" asp-route-id="@s.Id" class="btn btn-sm btn-outline-primary">
-                        Add to map
-                    </a>
-                }
-            </td>
-        </tr>
-    }
-</table>
+                        @if (stop.IsOnMap)
+                        {
+                            <a asp-action="RemoveFromMap" asp-route-id="@stop.Id" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-map"></i>
+                                Remove
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-action="AddToMap" asp-route-id="@stop.Id" class="btn btn-sm btn-primary">
+                                <i class="bi bi-pin-map"></i>
+                                Add to map
+                            </a>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

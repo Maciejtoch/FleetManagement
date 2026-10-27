@@ -4,71 +4,62 @@
     ViewData["Title"] = "Vehicles";
 }
 
-<h1>Vehicles</h1>
+<div class="page-heading">
+    <div>
+        <h1 class="page-title">Vehicles</h1>
+        <p class="page-subtitle">Manage fleet vehicles and assigned drivers.</p>
+    </div>
 
-@if (User.IsInRole("Owner"))
-{
-    <a asp-action="Create" class="btn btn-primary">Add Vehicle</a>
-}
+    @if (User.IsInRole("Owner"))
+    {
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="bi bi-truck-front"></i>
+            Add vehicle
+        </a>
+    }
+</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.RegistrationNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Make)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Model)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Year)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Mileage)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.VIN)
-            </th>
-            <th>Assigned User</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.RegistrationNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Make)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Model)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Year)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Mileage)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VIN)
-            </td>
-                <td>
-                    @(item.AssignedUser != null
-                                    ? item.AssignedUser.FullName
-                                    : "-")
-            </td>
-
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="table-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.RegistrationNumber)</th>
+                <th>@Html.DisplayNameFor(model => model.Make)</th>
+                <th>@Html.DisplayNameFor(model => model.Model)</th>
+                <th>@Html.DisplayNameFor(model => model.Year)</th>
+                <th>@Html.DisplayNameFor(model => model.Mileage)</th>
+                <th>@Html.DisplayNameFor(model => model.VIN)</th>
+                <th>Assigned User</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.RegistrationNumber)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Make)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Model)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Year)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Mileage)</td>
+                    <td>@Html.DisplayFor(modelItem => item.VIN)</td>
+                    <td>@(item.AssignedUser != null ? item.AssignedUser.FullName : "-")</td>
+                    <td class="table-actions">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-pencil"></i>
+                            Edit
+                        </a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-eye"></i>
+                            Details
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash"></i>
+                            Delete
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

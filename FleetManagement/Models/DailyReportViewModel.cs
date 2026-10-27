@@ -14,6 +14,7 @@ namespace FleetManagement.Models
         public int VehicleId { get; set; }
         public string? VehicleRegistration { get; set; }
         public int Mileage { get; set; }
+        public int TripDurationMinutes { get; set; }
         public string? Notes { get; set; }
         public List<int> SelectedStopIds { get; set; } = new();
         public List<Stop> Stops { get; set; } = new();

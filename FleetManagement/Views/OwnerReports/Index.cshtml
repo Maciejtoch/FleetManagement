@@ -1,31 +1,51 @@
-﻿@model IEnumerable<FleetManagement.Core.Models.DailyReport>
+@model IEnumerable<FleetManagement.Core.Models.DailyReport>
 
-<h2>📊 Daily Reports – All Users</h2>
+@{
+    ViewData["Title"] = "Reports";
+}
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>User</th>
-            <th>Vehicle</th>
-            <th>Mileage</th>
-            <th>Stops</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var r in Model)
-        {
+<div class="page-heading">
+    <div>
+        <h1 class="page-title">Reports</h1>
+        <p class="page-subtitle">Daily activity overview for all drivers and vehicles.</p>
+    </div>
+</div>
+
+<div class="table-container">
+    <table class="table">
+        <thead>
             <tr>
-                <td>@r.Date.ToShortDateString()</td>
-                <td>@r.User.Email</td>
-                <td>@r.Vehicle.RegistrationNumber</td>
-                <td>@r.Mileage</td>
-                <td>@r.Stops.Count()</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@r.Id">Details</a>
-                </td>
+                <th>Date</th>
+                <th>User</th>
+                <th>Vehicle</th>
+                <th>Mileage</th>
+                <th>Stops</th>
+                <th>Trip time</th>
+                <th>Actions</th>
             </tr>
-        }
-    </tbody>
-
-</table>
+        </thead>
+        <tbody>
+            @foreach (var report in Model)
+            {
+                <tr>
+                    <td>@report.Date.ToShortDateString()</td>
+                    <td>@report.User?.Email</td>
+                    <td>@report.Vehicle?.RegistrationNumber</td>
+                    <td>@report.Mileage</td>
+                    <td>@report.Stops.Count()</td>
+                    <td>@(report.TripDurationMinutes.HasValue ? FleetManagement.Core.Models.DailyReport.FormatDuration(report.TripDurationMinutes.Value) : report.GetTripDurationDisplay())</td>
+                    <td class="table-actions">
+                        <a asp-action="Details" asp-route-id="@report.Id" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-eye"></i>
+                            Details
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@report.Id" class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-pencil-square"></i>
+                            Edit
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

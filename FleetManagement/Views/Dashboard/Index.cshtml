@@ -1,22 +1,64 @@
-﻿@model FleetManagement.Core.Models.AppUser
+@model FleetManagement.Core.Models.AppUser
 @{
     ViewData["Title"] = "Dashboard";
 }
 
-<h2>Dashboard</h2>
-<p>Zalogowany jako: <strong>@User.Identity.Name</strong></p>
+<div class="page-heading">
+    <div>
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-subtitle">Zalogowany jako: <strong>@User.Identity.Name</strong></p>
+    </div>
+</div>
 
 @if (User.IsInRole("Owner"))
 {
     @await Html.PartialAsync("_OwnerDashboard")
 
-    <div class="row g-4 mt-2">
-        <div class="col-12">
-            <div class="card shadow p-3">
+    <div class="dashboard-map-shell mt-4">
+        <div class="dashboard-card map-card dashboard-map-panel" data-aos="fade-up" data-aos-delay="120">
+            <div class="card-header-row">
                 <h4>Mapa przystanków</h4>
-                <div id="map" style="height:400px; width:100%;"></div>
+                <label class="city-picker">
+                    <span>Domyślne miasto</span>
+                    <select id="citySelect" aria-label="Choose city">
+                        <option value="Warszawa">Warszawa</option>
+                        <option value="Łódź">Łódź</option>
+                        <option value="Wrocław">Wrocław</option>
+                        <option value="Kraków">Kraków</option>
+                        <option value="Katowice">Katowice</option>
+                        <option value="Gdańsk">Gdańsk</option>
+                        <option value="Radom">Radom</option>
+                        <option value="Opole">Opole</option>
+                        <option value="Białystok">Białystok</option>
+                        <option value="Suwałki">Suwałki</option>
+                        <option value="Zakopane">Zakopane</option>
+                        <option value="Poznań">Poznań</option>
+                    </select>
+                </label>
             </div>
+            <div id="map" aria-label="Map of stops"></div>
         </div>
+
+        <aside class="dashboard-card notes-panel" data-aos="fade-right" data-aos-delay="180">
+            <div class="card-header-row">
+                <h4>Notatki</h4>
+                <span class="notes-chip">Podgląd</span>
+            </div>
+            <div class="notes-placeholder">
+                <div class="note-item">
+                    <span class="note-title">Podsumowanie trasy</span>
+                    <p>Urban delivery cluster, 3 stops completed, traffic smooth.</p>
+                </div>
+                <div class="note-item">
+                    <span class="note-title">Przypomnienie serwisowe</span>
+                    <p>Kontrola pojazdu za 8 dni.</p>
+                </div>
+                <div class="note-item">
+                    <span class="note-title">Następny priorytet</span>
+                    <p>Sprawdzenie raportu paliwowego i optymalizacji tras.</p>
+                </div>
+            </div>
+        </aside>
     </div>
 }
 else if (User.IsInRole("User"))
@@ -32,15 +74,48 @@ else if (User.IsInRole("User"))
 
         <script>
             const mapElement = document.getElementById('map');
+            const citySelect = document.getElementById('citySelect');
+            const cityCoords = {
+                Warszawa: { lat: 52.2297, lng: 21.0122, zoom: 7 },
+                'Łódź': { lat: 51.7592, lng: 19.4560, zoom: 8 },
+                Wrocław: { lat: 51.1079, lng: 17.0385, zoom: 8 },
+                Kraków: { lat: 50.0614, lng: 19.9373, zoom: 8 },
+                Katowice: { lat: 50.2649, lng: 19.0238, zoom: 8 },
+                Gdańsk: { lat: 54.3520, lng: 18.6464, zoom: 8 },
+                Radom: { lat: 51.4027, lng: 21.1471, zoom: 8 },
+                Opole: { lat: 50.6751, lng: 17.9213, zoom: 8 },
+                'Białystok': { lat: 53.1325, lng: 23.1688, zoom: 8 },
+                Suwałki: { lat: 54.1003, lng: 22.9334, zoom: 8 },
+                Zakopane: { lat: 49.2992, lng: 19.9496, zoom: 9 },
+                Poznań: { lat: 52.4064, lng: 16.9252, zoom: 8 }
+            };
 
             if (mapElement) {
-                const map = L.map('map').setView([52.237, 21.017], 7);
+                const preferredCity = localStorage.getItem('fleet-map-city') || 'Warszawa';
+                if (citySelect) {
+                    citySelect.value = preferredCity;
+                }
+
+                const selectedCity = cityCoords[preferredCity] || cityCoords.Warszawa;
+                const map = L.map('map', { zoomControl: true }).setView([selectedCity.lat, selectedCity.lng], selectedCity.zoom);
 
                 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                     attribution: '© OpenStreetMap'
                 }).addTo(map);
 
-                // Pobranie punktów z serwera
+                const refreshMap = function (cityName) {
+                    const city = cityCoords[cityName] || cityCoords.Warszawa;
+                    map.setView([city.lat, city.lng], city.zoom);
+                };
+
+                if (citySelect) {
+                    citySelect.addEventListener('change', function () {
+                        const cityName = this.value;
+                        localStorage.setItem('fleet-map-city', cityName);
+                        refreshMap(cityName);
+                    });
+                }
+
                 fetch('/Stops/GetMapStops')
                     .then(res => res.json())
                     .then(stops => {

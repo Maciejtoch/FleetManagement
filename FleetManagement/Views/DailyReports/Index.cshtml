@@ -1,35 +1,45 @@
-﻿@model IEnumerable<FleetManagement.Core.Models.DailyReport>
+@model IEnumerable<FleetManagement.Core.Models.DailyReport>
 
-<h2>📊 Daily Reports – All Users</h2>
+@{
+    ViewData["Title"] = "Daily Reports";
+}
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>User</th>
-            <th>Vehicle</th>
-            <th>Mileage</th>
-            <th>Stops</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var r in Model)
-        {
+<div class="page-heading">
+    <div>
+        <h1 class="page-title">Daily Reports</h1>
+        <p class="page-subtitle">Your submitted trip reports and stop summaries.</p>
+    </div>
+</div>
+
+<div class="table-container">
+    <table class="table">
+        <thead>
             <tr>
-                <td>@r.Date.ToShortDateString()</td>
-                <td>@r.User?.Email</td>
-                <td>@r.Vehicle?.RegistrationNumber</td>
-                <td>@r.Mileage</td>
-                <td>@r.Stops.Count()</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@r.Id"
-                       class="btn btn-sm btn-outline-primary">
-                        Details
-                    </a>
-                </td>
+                <th>Date</th>
+                <th>Vehicle</th>
+                <th>Stops</th>
+                <th>Mileage</th>
+                <th>Trip time</th>
+                <th>Actions</th>
             </tr>
-        }
-
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var report in Model)
+            {
+                <tr>
+                    <td>@report.Date.ToShortDateString()</td>
+                    <td>@report.Vehicle?.RegistrationNumber</td>
+                    <td>@report.Stops.Count()</td>
+                    <td>@report.Mileage km</td>
+                    <td>@(report.TripDurationMinutes.HasValue ? FleetManagement.Core.Models.DailyReport.FormatDuration(report.TripDurationMinutes.Value) : report.GetTripDurationDisplay())</td>
+                    <td class="table-actions">
+                        <a asp-action="Details" asp-route-id="@report.Id" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-eye"></i>
+                            Details
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

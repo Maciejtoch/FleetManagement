@@ -1,4 +1,4 @@
-﻿using FleetManagement.Core.Models;
+using FleetManagement.Core.Models;
 using FleetManagement.Data;
 using FleetManagement.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -40,16 +40,14 @@ namespace FleetManagement.Controllers
             });
         }
 
-
         [HttpPost]
         public async Task<IActionResult> Create(DailyReportViewModel model)
         {
-
             if (!ModelState.IsValid)
             {
                 var errors = ModelState
-                .Where(x => x.Value.Errors.Count > 0)
-                .Select(x => $"{x.Key}: {string.Join(", ", x.Value.Errors.Select(e => e.ErrorMessage))}");
+                    .Where(x => x.Value.Errors.Count > 0)
+                    .Select(x => $"{x.Key}: {string.Join(", ", x.Value.Errors.Select(e => e.ErrorMessage))}");
 
                 throw new Exception("MODELSTATE INVALID: " + string.Join(" | ", errors));
             }
@@ -64,10 +62,14 @@ namespace FleetManagement.Controllers
                 throw new Exception("VehicleId == 0");
 
             var user = await _userManager.GetUserAsync(User);
-
             if (user == null)
                 return Unauthorized();
 
+            var notes = model.Notes ?? string.Empty;
+            if (model.TripDurationMinutes > 0)
+            {
+                notes = AddTripDurationToNotes(notes, model.TripDurationMinutes);
+            }
 
             var report = new DailyReport
             {
@@ -75,7 +77,7 @@ namespace FleetManagement.Controllers
                 VehicleId = model.VehicleId,
                 Date = DateTime.UtcNow,
                 Mileage = model.Mileage,
-                Notes = model.Notes,
+                Notes = notes,
                 Stops = model.SelectedStopIds.Select(id => new DailyReportStop
                 {
                     StopId = id
@@ -83,13 +85,7 @@ namespace FleetManagement.Controllers
             };
 
             _context.DailyReports.Add(report);
-
-            Console.WriteLine($"VehicleId: {model.VehicleId}");
-            Console.WriteLine($"Stops: {model.SelectedStopIds.Count}");
-
             await _context.SaveChangesAsync();
-
-            Console.WriteLine("SAVED");
 
             return RedirectToAction(nameof(Index));
         }
@@ -97,6 +93,8 @@ namespace FleetManagement.Controllers
         public async Task<IActionResult> Index()
         {
             var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return Unauthorized();
 
             var reports = await _context.DailyReports
                 .Include(r => r.Vehicle)
@@ -105,6 +103,11 @@ namespace FleetManagement.Controllers
                 .Where(r => r.UserId == user.Id)
                 .OrderByDescending(r => r.Date)
                 .ToListAsync();
+
+            foreach (var report in reports)
+            {
+                report.TripDurationMinutes = ParseTripDuration(report.Notes);
+            }
 
             return View(reports);
         }
@@ -115,11 +118,60 @@ namespace FleetManagement.Controllers
                 .Include(r => r.Vehicle)
                 .Include(r => r.Stops)
                     .ThenInclude(s => s.Stop)
+                .Include(r => r.User)
                 .FirstOrDefaultAsync(r => r.Id == id);
 
-            if (report == null) return NotFound();
+            if (report == null)
+                return NotFound();
 
+            report.TripDurationMinutes = ParseTripDuration(report.Notes);
             return View(report);
+        }
+
+        private static int? ParseTripDuration(string? notes)
+        {
+            if (string.IsNullOrWhiteSpace(notes))
+                return null;
+
+            var marker = "Trip duration:";
+            var index = notes.IndexOf(marker, StringComparison.OrdinalIgnoreCase);
+            if (index < 0)
+                return null;
+
+            var value = notes.Substring(index + marker.Length).Trim();
+            if (string.IsNullOrWhiteSpace(value))
+                return null;
+
+            var totalMinutes = 0;
+            var segments = value.Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+            for (var i = 0; i < segments.Length - 1; i += 2)
+            {
+                if (int.TryParse(segments[i], out var number) && segments[i + 1].Length > 0)
+                {
+                    var unit = segments[i + 1].ToLowerInvariant();
+                    if (unit.StartsWith("h"))
+                        totalMinutes += number * 60;
+                    else if (unit.StartsWith("m"))
+                        totalMinutes += number;
+                }
+            }
+
+            return totalMinutes > 0 ? totalMinutes : null;
+        }
+
+        private static string AddTripDurationToNotes(string? notes, int minutes)
+        {
+            var formatted = DailyReport.FormatDuration(minutes);
+            var trimmed = notes?.Trim() ?? string.Empty;
+
+            if (string.IsNullOrWhiteSpace(trimmed))
+                return $"Trip duration: {formatted}";
+
+            if (trimmed.Contains("Trip duration:", StringComparison.OrdinalIgnoreCase))
+                return trimmed;
+
+            return $"{trimmed}\nTrip duration: {formatted}";
         }
     }
 }

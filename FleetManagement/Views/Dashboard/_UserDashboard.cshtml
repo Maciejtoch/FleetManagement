@@ -1,14 +1,72 @@
-﻿@model FleetManagement.Core.Models.AppUser
+@using System.Linq
+@model FleetManagement.Core.Models.AppUser
 
-@if (Model.Vehicle != null)
-{
-    <p class="text-black">
-        Your assigned vehicle:
-        <strong>@Model.Vehicle.RegistrationNumber</strong>
-    </p>
-}
-else
-{
-    <p class="text-warning">No vehicle assigned.</p>
-}
+<div class="dashboard-grid">
+    <div class="stat-card">
+        <div class="stat-label">Assigned vehicle</div>
+        <div class="stat-value">@(Model.Vehicle != null ? Model.Vehicle.RegistrationNumber : "—")</div>
+        <div class="stat-trend positive">Fleet access</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Reports</div>
+        <div class="stat-value">@ViewBag.ReportCount</div>
+        <div class="stat-trend positive">Submitted</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Stops</div>
+        <div class="stat-value">@ViewBag.StopCount</div>
+        <div class="stat-trend positive">Available routes</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-label">Status</div>
+        <div class="stat-value">Ready</div>
+        <div class="stat-trend positive">Active</div>
+    </div>
+</div>
 
+<div class="dashboard-panel-grid">
+    <div class="dashboard-card dashboard-card-large">
+        <div class="card-header-row">
+            <h4>Current assignment</h4>
+        </div>
+
+        @if (Model.Vehicle != null)
+        {
+            <div class="vehicle-summary">
+                <div class="summary-row">
+                    <span>Vehicle</span>
+                    <strong>@Model.Vehicle.Make @Model.Vehicle.Model</strong>
+                </div>
+                <div class="summary-row">
+                    <span>Registration</span>
+                    <strong>@Model.Vehicle.RegistrationNumber</strong>
+                </div>
+                <div class="summary-row">
+                    <span>Odometer</span>
+                    <strong>@Model.Vehicle.Mileage km</strong>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="empty-state">No vehicle assigned yet.</div>
+        }
+    </div>
+
+    <div class="dashboard-card">
+        <div class="card-header-row">
+            <h4>Quick actions</h4>
+        </div>
+
+        <div class="quick-actions">
+            <a asp-controller="DailyReports" asp-action="Create" class="action-tile primary">
+                <i class="bi bi-journal-text"></i>
+                <span>New report</span>
+            </a>
+            <a asp-controller="DailyReports" asp-action="Index" class="action-tile">
+                <i class="bi bi-clock-history"></i>
+                <span>History</span>
+            </a>
+        </div>
+    </div>
+</div>

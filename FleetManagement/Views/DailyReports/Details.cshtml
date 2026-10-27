@@ -1,0 +1,64 @@
+@model FleetManagement.Core.Models.DailyReport
+
+@{
+    ViewData["Title"] = "Daily Report Details";
+}
+
+<div class="page-heading">
+    <div>
+        <h1 class="page-title">Daily report details</h1>
+        <p class="page-subtitle">Overview of the selected route and stop list.</p>
+    </div>
+</div>
+
+<div class="card dashboard-card">
+    <div class="card-body">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="info-row"><span class="text-muted">Date</span><strong>@Model.Date.ToShortDateString()</strong></div>
+                <div class="info-row"><span class="text-muted">Vehicle</span><strong>@Model.Vehicle?.RegistrationNumber</strong></div>
+                <div class="info-row"><span class="text-muted">Mileage</span><strong>@Model.Mileage km</strong></div>
+            </div>
+            <div class="col-md-6">
+                <div class="info-row"><span class="text-muted">User</span><strong>@Model.User?.Email</strong></div>
+                <div class="info-row"><span class="text-muted">Trip duration</span><strong>@(Model.TripDurationMinutes.HasValue ? FleetManagement.Core.Models.DailyReport.FormatDuration(Model.TripDurationMinutes.Value) : Model.GetTripDurationDisplay())</strong></div>
+                <div class="info-row"><span class="text-muted">Stops</span><strong>@Model.Stops.Count()</strong></div>
+            </div>
+        </div>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Notes))
+        {
+            <div class="mt-4">
+                <h5 class="dashboard-card-title">Notes</h5>
+                <p class="mb-0">@Model.Notes</p>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="mt-4">
+    <h4 class="dashboard-card-title">Route stops</h4>
+    @if (Model.Stops.Any())
+    {
+        <div class="list-group">
+            @foreach (var stop in Model.Stops)
+            {
+                <div class="list-group-item">
+                    <strong>@stop.Stop?.CompanyName</strong><br />
+                    <span class="text-muted">@stop.Stop?.Address</span>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info">No stops selected.</div>
+    }
+</div>
+
+<div class="mt-4 d-flex gap-2">
+    <a asp-action="Index" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i>
+        Back to list
+    </a>
+</div>
