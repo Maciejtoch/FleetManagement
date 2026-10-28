@@ -10,7 +10,7 @@
         <p class="page-subtitle">Manage fleet vehicles and assigned drivers.</p>
     </div>
 
-    @if (User.IsInRole("Owner"))
+    @if (User.IsInRole("Admin") || User.IsInRole("Owner"))
     {
         <a asp-action="Create" class="btn btn-primary">
             <i class="bi bi-truck-front"></i>

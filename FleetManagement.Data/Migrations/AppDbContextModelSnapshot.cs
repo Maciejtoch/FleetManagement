@@ -68,6 +68,9 @@ namespace FleetManagement.Data.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("INTEGER");
 
@@ -87,10 +90,45 @@ namespace FleetManagement.Data.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
+                    b.HasIndex("TenantId");
+
                     b.HasIndex("VehicleId")
                         .IsUnique();
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("FleetManagement.Core.Models.AuditLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Action")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AdminUserId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateUtc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdminUserId");
+
+                    b.HasIndex("TenantId");
+
+                    b.ToTable("AuditLogs");
                 });
 
             modelBuilder.Entity("FleetManagement.Core.Models.DailyReport", b =>
@@ -108,6 +146,9 @@ namespace FleetManagement.Data.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -116,6 +157,8 @@ namespace FleetManagement.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.HasIndex("UserId");
 
@@ -132,9 +175,14 @@ namespace FleetManagement.Data.Migrations
                     b.Property<int>("StopId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("DailyReportId", "StopId");
 
                     b.HasIndex("StopId");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("DailyReportStops");
                 });
@@ -151,10 +199,15 @@ namespace FleetManagement.Data.Migrations
                     b.Property<DateTime>("StartedAt")
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("VehicleId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("LocationShareSessions");
                 });
@@ -178,10 +231,15 @@ namespace FleetManagement.Data.Migrations
                     b.Property<DateTime>("ServiceDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("VehicleId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.HasIndex("VehicleId");
 
@@ -211,9 +269,66 @@ namespace FleetManagement.Data.Migrations
                     b.Property<double?>("Longitude")
                         .HasColumnType("REAL");
 
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("TenantId");
+
                     b.ToTable("Stops");
+                });
+
+            modelBuilder.Entity("FleetManagement.Core.Models.Tenant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Domain")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PlanType")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Slug")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("SubscriptionEndsAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SuspensionReason")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Domain")
+                        .IsUnique();
+
+                    b.HasIndex("Slug")
+                        .IsUnique();
+
+                    b.ToTable("Tenants");
                 });
 
             modelBuilder.Entity("FleetManagement.Core.Models.Vehicle", b =>
@@ -240,6 +355,9 @@ namespace FleetManagement.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("VIN")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -248,6 +366,8 @@ namespace FleetManagement.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.ToTable("Vehicles");
                 });
@@ -267,10 +387,15 @@ namespace FleetManagement.Data.Migrations
                     b.Property<double>("Longitude")
                         .HasColumnType("REAL");
 
+                    b.Property<int?>("TenantId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("VehicleId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
 
                     b.HasIndex("VehicleId");
 
@@ -407,16 +532,46 @@ namespace FleetManagement.Data.Migrations
 
             modelBuilder.Entity("FleetManagement.Core.Models.AppUser", b =>
                 {
+                    b.HasOne("FleetManagement.Core.Models.Tenant", "Tenant")
+                        .WithMany("Users")
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("FleetManagement.Core.Models.Vehicle", "Vehicle")
                         .WithOne("AssignedUser")
                         .HasForeignKey("FleetManagement.Core.Models.AppUser", "VehicleId")
                         .OnDelete(DeleteBehavior.SetNull);
 
+                    b.Navigation("Tenant");
+
                     b.Navigation("Vehicle");
+                });
+
+            modelBuilder.Entity("FleetManagement.Core.Models.AuditLog", b =>
+                {
+                    b.HasOne("FleetManagement.Core.Models.AppUser", "AdminUser")
+                        .WithMany()
+                        .HasForeignKey("AdminUserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("FleetManagement.Core.Models.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("AdminUser");
+
+                    b.Navigation("Tenant");
                 });
 
             modelBuilder.Entity("FleetManagement.Core.Models.DailyReport", b =>
                 {
+                    b.HasOne("FleetManagement.Core.Models.Tenant", "Tenant")
+                        .WithMany("DailyReports")
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("FleetManagement.Core.Models.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -428,6 +583,8 @@ namespace FleetManagement.Data.Migrations
                         .HasForeignKey("VehicleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Tenant");
 
                     b.Navigation("User");
 
@@ -448,29 +605,80 @@ namespace FleetManagement.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("FleetManagement.Core.Models.Tenant", "Tenant")
+                        .WithMany("DailyReportStops")
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.Navigation("DailyReport");
 
                     b.Navigation("Stop");
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("FleetManagement.Core.Models.LocationShareSession", b =>
+                {
+                    b.HasOne("FleetManagement.Core.Models.Tenant", "Tenant")
+                        .WithMany("LocationShareSessions")
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Tenant");
                 });
 
             modelBuilder.Entity("FleetManagement.Core.Models.ServiceRecord", b =>
                 {
+                    b.HasOne("FleetManagement.Core.Models.Tenant", "Tenant")
+                        .WithMany("ServiceRecords")
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("FleetManagement.Core.Models.Vehicle", "Vehicle")
                         .WithMany()
                         .HasForeignKey("VehicleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Tenant");
 
                     b.Navigation("Vehicle");
                 });
 
+            modelBuilder.Entity("FleetManagement.Core.Models.Stop", b =>
+                {
+                    b.HasOne("FleetManagement.Core.Models.Tenant", "Tenant")
+                        .WithMany("Stops")
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Tenant");
+                });
+
+            modelBuilder.Entity("FleetManagement.Core.Models.Vehicle", b =>
+                {
+                    b.HasOne("FleetManagement.Core.Models.Tenant", "Tenant")
+                        .WithMany("Vehicles")
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Tenant");
+                });
+
             modelBuilder.Entity("FleetManagement.Core.Models.VehicleLocation", b =>
                 {
+                    b.HasOne("FleetManagement.Core.Models.Tenant", "Tenant")
+                        .WithMany("VehicleLocations")
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("FleetManagement.Core.Models.Vehicle", "Vehicle")
                         .WithMany()
                         .HasForeignKey("VehicleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Tenant");
 
                     b.Navigation("Vehicle");
                 });
@@ -529,6 +737,25 @@ namespace FleetManagement.Data.Migrations
             modelBuilder.Entity("FleetManagement.Core.Models.DailyReport", b =>
                 {
                     b.Navigation("Stops");
+                });
+
+            modelBuilder.Entity("FleetManagement.Core.Models.Tenant", b =>
+                {
+                    b.Navigation("DailyReportStops");
+
+                    b.Navigation("DailyReports");
+
+                    b.Navigation("LocationShareSessions");
+
+                    b.Navigation("ServiceRecords");
+
+                    b.Navigation("Stops");
+
+                    b.Navigation("Users");
+
+                    b.Navigation("VehicleLocations");
+
+                    b.Navigation("Vehicles");
                 });
 
             modelBuilder.Entity("FleetManagement.Core.Models.Vehicle", b =>

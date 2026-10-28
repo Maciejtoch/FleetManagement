@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FleetManagement.Controllers
 {
-    [Authorize(Roles = "Owner")]
+    [Authorize(Roles = "Admin,Owner")]
     public class ServiceRecordsController : Controller
     {
         private readonly AppDbContext _context;

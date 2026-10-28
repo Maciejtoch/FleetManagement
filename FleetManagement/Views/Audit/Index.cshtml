@@ -1,0 +1,40 @@
+@{
+    ViewData["Title"] = "Logi i audyt";
+    var tenants = (IEnumerable<FleetManagement.Core.Models.Tenant>)ViewBag.Tenants;
+    var users = (IEnumerable<FleetManagement.Core.Models.AppUser>)ViewBag.Users;
+}
+
+<div class="page-heading">
+    <div>
+        <h1 class="page-title">Logi i audyt platformy</h1>
+        <p class="page-subtitle">Przegląd aktywności platformy, użytkowników i tenantów.</p>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="dashboard-card h-100">
+            <h3>Tenanty</h3>
+            <ul class="list-group list-group-flush">
+                @foreach (var tenant in tenants)
+                {
+                    <li class="list-group-item px-0">
+                        <strong>@tenant.Name</strong> · @tenant.Domain · @tenant.Status
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="dashboard-card h-100">
+            <h3>Użytkownicy i role</h3>
+            <ul class="list-group list-group-flush">
+                @foreach (var user in users)
+                {
+                    <li class="list-group-item px-0">@user.Email</li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

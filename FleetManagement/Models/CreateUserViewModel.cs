@@ -6,15 +6,17 @@ namespace FleetManagement.Models
     {
         [Required]
         [EmailAddress]
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
 
         [Required]
-        public string FullName { get; set; }
+        public string FullName { get; set; } = string.Empty;
 
         [Required]
         [DataType(DataType.Password)]
-        public string Password { get; set; }
+        public string Password { get; set; } = string.Empty;
+
         [Required]
-        public string Role { get; set; }
+        [RegularExpression("^(User|TenantAdmin)$", ErrorMessage = "Dozwolone role to: Kierowca lub Admin (dla tenanta).")]
+        public string Role { get; set; } = "User";
     }
 }

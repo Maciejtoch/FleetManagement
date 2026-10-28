@@ -4,6 +4,8 @@
 
 <form method="post">
     <input type="hidden" asp-for="UserId" />
+    <input type="hidden" asp-for="ReturnUrl" />
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
     <div class="mb-3">
         <label>Email</label>
@@ -13,11 +15,11 @@
     <div class="mb-3">
         <label>Role</label>
         <select asp-for="Role" class="form-select">
-            <option value="User">User</option>
-            <option value="Owner">Owner</option>
+            <option value="User">Kierowca</option>
+            <option value="TenantAdmin">Admin (dla tenanta)</option>
         </select>
     </div>
 
     <button class="btn btn-primary">Save</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    <a href="@(!string.IsNullOrWhiteSpace(Model.ReturnUrl) ? Model.ReturnUrl : Url.Action("Index"))" class="btn btn-secondary">Cancel</a>
 </form>

@@ -9,8 +9,10 @@ namespace FleetManagement.Core.Models
     public class ServiceRecord
     {
         public int Id { get; set; }
+        public int? TenantId { get; set; }
+        public Tenant? Tenant { get; set; }
         public int VehicleId { get; set; }
-        
+
         public Vehicle? Vehicle { get; set; }
         public DateTime ServiceDate { get; set; }
         public int Mileage { get; set; }

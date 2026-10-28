@@ -1,0 +1,59 @@
+@model FleetManagement.Models.TenantCreateViewModel
+@{
+    ViewData["Title"] = "Nowy tenant";
+}
+
+<div class="page-heading">
+    <div>
+        <h1 class="page-title">Dodaj nowy tenant</h1>
+        <p class="page-subtitle">Utwórz firmę, administratora i użytkownika lokalnie w modelu wielo-tenant.</p>
+    </div>
+</div>
+
+<div class="dashboard-card mx-auto" style="max-width: 900px;">
+    <form asp-action="Create" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label asp-for="Name" class="form-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Slug" class="form-label"></label>
+                <input asp-for="Slug" class="form-control" />
+                <span asp-validation-for="Slug" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="Domain" class="form-label"></label>
+                <input asp-for="Domain" class="form-control" />
+                <span asp-validation-for="Domain" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="AdminEmail" class="form-label"></label>
+                <input asp-for="AdminEmail" class="form-control" />
+                <span asp-validation-for="AdminEmail" class="text-danger"></span>
+            </div>
+
+            <div class="col-md-6">
+                <label asp-for="AdminPassword" class="form-label"></label>
+                <input asp-for="AdminPassword" class="form-control" type="password" />
+                <span asp-validation-for="AdminPassword" class="text-danger"></span>
+            </div>
+
+        </div>
+
+        <div class="d-flex justify-content-between mt-4">
+            <a asp-action="Index" class="btn btn-outline-secondary">Powrót</a>
+            <button type="submit" class="btn btn-primary">Utwórz tenant</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

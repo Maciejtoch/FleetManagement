@@ -1,59 +1,55 @@
-﻿@{
-    ViewData["Title"] = "Owner Dashboard";
+﻿@model IEnumerable<FleetManagement.Core.Models.Tenant>
+@{
+    ViewData["Title"] = "Panel właściciela";
 }
 
-<h2>Vehicle Location</h2>
-
-<div class="owner-map-container" style="max-width:600px; margin:auto; position:relative;">
-    <!-- MAPA -->
-    <div id="map" style="height:300px; width:100%; border:1px solid #ccc;"></div>
-
-    <!-- PRZYCISK NAD MAPĄ -->
-    <button id="requestLocationBtn"
-            class="btn btn-warning"
-            style="position:absolute; top:10px; right:10px; z-index:1000;">
-        📍 Request location (30 min)
-    </button>
+<div class="page-heading">
+    <div>
+        <h1 class="page-title">Zarządzanie tenantami</h1>
+        <p class="page-subtitle">Platforma lokalna – przegląd firm, administratorów i danych odseparowanych per tenant.</p>
+    </div>
+    <a asp-action="Create" class="btn btn-primary">
+        <i class="bi bi-plus-circle me-2"></i>Nowy tenant
+    </a>
 </div>
 
-<!-- LEAFLET CSS i JS -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+@if (!Model.Any())
+{
+    <div class="dashboard-card">
+        <h3>Brak tenantów</h3>
+        <p>Dodaj pierwszą firmę, aby utworzyć lokalne środowisko multi-tenant.</p>
+    </div>
+}
+else
+{
+    <div class="row g-4">
+        @foreach (var tenant in Model)
+        {
+            <div class="col-lg-6">
+                <div class="dashboard-card h-100">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <div>
+                            <h3 class="mb-1">@tenant.Name</h3>
+                            <div class="text-muted">@tenant.Domain</div>
+                        </div>
+                        <span class="badge rounded-pill bg-success-subtle text-success-emphasis px-3 py-2">@tenant.Status</span>
+                    </div>
 
-<!-- JS MAPY -->
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // inicjalizacja mapy dopiero po załadowaniu
-        const map = L.map('map').setView([50.3, 19.0], 8);
+                    <dl class="row mb-3 small">
+                        <dt class="col-sm-5">Slug</dt>
+                        <dd class="col-sm-7">@tenant.Slug</dd>
+                        <dt class="col-sm-5">Plan</dt>
+                        <dd class="col-sm-7">@tenant.PlanType</dd>
+                        <dt class="col-sm-5">Utworzono</dt>
+                        <dd class="col-sm-7">@tenant.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy")</dd>
+                    </dl>
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
-
-        setTimeout(() => map.invalidateSize(), 200);
-
-        let marker = null;
-
-        function refreshLocation(vehicleId) {
-            fetch(`/Location/Latest?vehicleId=${vehicleId}`)
-                .then(r => r.json())
-                .then(loc => {
-                    if (!loc) return;
-                    if (marker) map.removeLayer(marker);
-                    marker = L.marker([loc.latitude, loc.longitude]).addTo(map);
-                    map.setView([loc.latitude, loc.longitude], 13);
-                });
+                    <div class="d-flex gap-2 flex-wrap">
+                        <a asp-controller="AdminTenants" asp-action="Details" asp-route-tenantId="@tenant.Id" class="btn btn-outline-primary btn-sm">Szczegóły</a>
+                        <a asp-controller="AdminTenants" asp-action="Edit" asp-route-id="@tenant.Id" class="btn btn-outline-secondary btn-sm">Edytuj tenant</a>
+                    </div>
+                </div>
+            </div>
         }
-
-        setInterval(() => refreshLocation(12), 10000);
-
-        // Przycisk Request Location
-        document.getElementById("requestLocationBtn").addEventListener("click", function() {
-            fetch('/Location/Request', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ vehicleId: 12, minutes: 30 })
-            });
-        });
-    });
-</script>
+    </div>
+}

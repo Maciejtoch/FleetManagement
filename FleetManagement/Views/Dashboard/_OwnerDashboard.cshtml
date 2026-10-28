@@ -28,35 +28,38 @@
 </div>
 
 <div class="dashboard-panel-grid">
-    <div class="dashboard-card dashboard-card-large">
-        <div class="card-header-row">
-            <h4>Recent activity</h4>
-            <a asp-controller="OwnerReports" asp-action="Index" class="btn btn-link btn-link-inline">View all</a>
-        </div>
-
-        @if (recentReports.Any())
-        {
-            <div class="mini-list">
-                @foreach (var report in recentReports)
-                {
-                    <div class="mini-list-item">
-                        <div>
-                            <strong>@report.User?.Email</strong>
-                            <small>@report.Vehicle?.RegistrationNumber</small>
-                        </div>
-                        <div class="text-end">
-                            <span>@report.Date.ToString("dd.MM.yyyy")</span>
-                            <small>@report.GetTripDurationDisplay()</small>
-                        </div>
-                    </div>
-                }
+    @if (!User.IsInRole("Admin"))
+    {
+        <div class="dashboard-card dashboard-card-large">
+            <div class="card-header-row">
+                <h4>Recent activity</h4>
+                <a asp-controller="OwnerReports" asp-action="Index" class="btn btn-link btn-link-inline">View all</a>
             </div>
-        }
-        else
-        {
-            <div class="empty-state">No reports yet.</div>
-        }
-    </div>
+
+            @if (recentReports.Any())
+            {
+                <div class="mini-list">
+                    @foreach (var report in recentReports)
+                    {
+                        <div class="mini-list-item">
+                            <div>
+                                <strong>@report.User?.Email</strong>
+                                <small>@report.Vehicle?.RegistrationNumber</small>
+                            </div>
+                            <div class="text-end">
+                                <span>@report.Date.ToString("dd.MM.yyyy")</span>
+                                <small>@report.GetTripDurationDisplay()</small>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="empty-state">No reports yet.</div>
+            }
+        </div>
+    }
 
     <div class="dashboard-card">
         <div class="card-header-row">

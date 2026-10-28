@@ -10,6 +10,8 @@ namespace FleetManagement.Core.Models
     public class Stop
     {
         public int Id { get; set; }
+        public int? TenantId { get; set; }
+        public Tenant? Tenant { get; set; }
 
         [Required]
         public string CompanyName { get; set; }

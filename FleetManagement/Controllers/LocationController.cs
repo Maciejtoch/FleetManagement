@@ -20,7 +20,7 @@ namespace FleetManagement.Controllers
             _userManager = userManager;
         }
 
-        [Authorize(Roles = "Owner")]
+        [Authorize(Roles = "Admin,Owner")]
         [HttpPost]
         public async Task<IActionResult> Request([FromBody] LocationRequestDto dto)
         {
@@ -61,7 +61,7 @@ namespace FleetManagement.Controllers
             return Ok();
         }
 
-        [Authorize(Roles = "Owner")]
+        [Authorize(Roles = "Admin,Owner")]
         public async Task<IActionResult> Latest(int vehicleId)
         {
             var loc = await _context.VehicleLocations

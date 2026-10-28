@@ -1,6 +1,7 @@
 ﻿using FleetManagement.Core.Models;
 using FleetManagement.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,23 +12,37 @@ using System.Threading.Tasks;
 
 namespace FleetManagement.Controllers
 {
-    [Authorize(Roles = "Owner")]
+    [Authorize(Roles = "Admin,Owner")]
     public class VehiclesController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public VehiclesController(AppDbContext context)
+        public VehiclesController(AppDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: VehiclesController
         public async Task<IActionResult> Index()
         {
-            var vehicles = await _context.Vehicles
-        .Include(v => v.AssignedUser)
-        .ToListAsync();
+            var query = _context.Vehicles
+                .Include(v => v.AssignedUser)
+                .AsQueryable();
 
+            if (!User.IsInRole("Admin"))
+            {
+                var currentUser = await _userManager.GetUserAsync(User);
+                if (currentUser?.TenantId == null)
+                {
+                    return Forbid();
+                }
+
+                query = query.Where(v => v.TenantId == currentUser.TenantId.Value);
+            }
+
+            var vehicles = await query.ToListAsync();
             return View(vehicles);
         }
 
@@ -44,6 +59,15 @@ namespace FleetManagement.Controllers
             if (vehicle == null)
             {
                 return NotFound();
+            }
+
+            if (!User.IsInRole("Admin"))
+            {
+                var currentUser = await _userManager.GetUserAsync(User);
+                if (currentUser?.TenantId != vehicle.TenantId)
+                {
+                    return Forbid();
+                }
             }
 
             return View(vehicle);

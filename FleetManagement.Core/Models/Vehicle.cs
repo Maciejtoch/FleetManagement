@@ -9,6 +9,8 @@ namespace FleetManagement.Core.Models
     public class Vehicle
     {
         public int Id { get; set; }
+        public int? TenantId { get; set; }
+        public Tenant? Tenant { get; set; }
         public string RegistrationNumber { get; set; } = string.Empty;
         public string Make { get; set; } = string.Empty;
         public string Model { get; set; } = string.Empty;

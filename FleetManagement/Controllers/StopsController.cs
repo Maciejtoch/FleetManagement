@@ -1,17 +1,20 @@
 ﻿using FleetManagement.Core.Models;
 using FleetManagement.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-[Authorize(Roles = "Owner")]
+[Authorize(Roles = "Admin,Owner")]
 public class StopsController : Controller
 {
     private readonly AppDbContext _context;
+    private readonly UserManager<AppUser> _userManager;
 
-    public StopsController(AppDbContext context)
+    public StopsController(AppDbContext context, UserManager<AppUser> userManager)
     {
         _context = context;
+        _userManager = userManager;
     }
     public class NominatimResult
     {

@@ -30,25 +30,43 @@
                     <i class="bi bi-speedometer2 me-2"></i><span data-i18n="dashboard">Dashboard</span>
                 </a>
 
-                <a asp-controller="Vehicles" asp-action="Index" data-aos="fade-right">
-                    <i class="bi bi-truck me-2"></i><span data-i18n="vehicles">Vehicles</span>
-                </a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a asp-controller="Owner" asp-action="Index" data-aos="fade-right">
+                        <i class="bi bi-building me-2"></i><span data-i18n="tenants">Tenants</span>
+                    </a>
+                    <a asp-controller="Owner" asp-action="Create" data-aos="fade-right">
+                        <i class="bi bi-plus-circle me-2"></i><span data-i18n="createTenant">Create tenant</span>
+                    </a>
+                    <a asp-controller="Subscriptions" asp-action="Index" data-aos="fade-right">
+                        <i class="bi bi-credit-card me-2"></i><span data-i18n="subscriptions">Subscriptions</span>
+                    </a>
+                    <a asp-controller="Audit" asp-action="Index" data-aos="fade-right">
+                        <i class="bi bi-journal-text me-2"></i><span data-i18n="logs">Logs</span>
+                    </a>
+                }
+                else
+                {
+                    <a asp-controller="Users" asp-action="Index" data-aos="fade-right">
+                        <i class="bi bi-people me-2"></i><span data-i18n="users">Users</span>
+                    </a>
 
-                <a asp-controller="Users" asp-action="Index" data-aos="fade-right">
-                    <i class="bi bi-people me-2"></i><span data-i18n="users">Users</span>
-                </a>
+                    <a asp-controller="Vehicles" asp-action="Index" data-aos="fade-right">
+                        <i class="bi bi-truck me-2"></i><span data-i18n="vehicles">Vehicles</span>
+                    </a>
 
-                <a asp-controller="Stops" asp-action="Index" data-aos="fade-right">
-                    <i class="bi bi-geo-alt me-2"></i><span data-i18n="stops">Stops</span>
-                </a>
+                    <a asp-controller="Stops" asp-action="Index" data-aos="fade-right">
+                        <i class="bi bi-geo-alt me-2"></i><span data-i18n="stops">Stops</span>
+                    </a>
 
-                <a asp-controller="OwnerReports" asp-action="Index" data-aos="fade-right">
-                    <i class="bi bi-bar-chart-line me-2"></i><span data-i18n="reports">Reports</span>
-                </a>
+                    <a asp-controller="OwnerReports" asp-action="Index" data-aos="fade-right">
+                        <i class="bi bi-bar-chart-line me-2"></i><span data-i18n="reports">Reports</span>
+                    </a>
 
-                <a asp-controller="ServiceRecords" asp-action="Index" data-aos="fade-right">
-                    <i class="bi bi-tools me-2"></i><span data-i18n="service">Service</span>
-                </a>
+                    <a asp-controller="ServiceRecords" asp-action="Index" data-aos="fade-right">
+                        <i class="bi bi-tools me-2"></i><span data-i18n="service">Service</span>
+                    </a>
+                }
             </nav>
         </aside>
 

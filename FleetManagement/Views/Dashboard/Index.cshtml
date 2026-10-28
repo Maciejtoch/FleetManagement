@@ -10,7 +10,7 @@
     </div>
 </div>
 
-@if (User.IsInRole("Owner"))
+@if (User.IsInRole("Admin") || User.IsInRole("Owner"))
 {
     @await Html.PartialAsync("_OwnerDashboard")
 
@@ -67,7 +67,7 @@ else if (User.IsInRole("User"))
 }
 
 @section Scripts {
-    @if (User.IsInRole("Owner"))
+    @if (User.IsInRole("Admin") || User.IsInRole("Owner"))
     {
         <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
         <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>

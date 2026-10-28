@@ -1,0 +1,42 @@
+@model IEnumerable<FleetManagement.Core.Models.Tenant>
+@{
+    ViewData["Title"] = "Zarządzanie tenantami";
+}
+
+<div class="page-heading">
+    <div>
+        <h1 class="page-title">Tenanty</h1>
+        <p class="page-subtitle">Lista firm dostępnych w systemie.</p>
+    </div>
+</div>
+
+<div class="table-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nazwa</th>
+                <th>Slug</th>
+                <th>Plan</th>
+                <th>Status</th>
+                <th>Akcja</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var tenant in Model)
+            {
+                <tr>
+                    <td>@tenant.Name</td>
+                    <td>@tenant.Slug</td>
+                    <td>@tenant.PlanType</td>
+                    <td>
+                        <span class="badge bg-@(tenant.IsActive ? "success" : "secondary")">@tenant.Status</span>
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-tenantId="@tenant.Id" class="btn btn-sm btn-outline-primary">Szczegóły</a>
+                        <a asp-action="Edit" asp-route-id="@tenant.Id" class="btn btn-sm btn-outline-secondary">Edytuj</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

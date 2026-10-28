@@ -12,5 +12,7 @@ namespace FleetManagement.Core.Models
         public DailyReport DailyReport { get; set; }
         public int StopId { get; set; }
         public Stop Stop { get; set; }
+        public int? TenantId { get; set; }
+        public Tenant? Tenant { get; set; }
     }
 }

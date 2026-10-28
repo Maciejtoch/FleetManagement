@@ -1,0 +1,68 @@
+@model FleetManagement.Core.Models.Tenant
+@{
+    ViewData["Title"] = "Szczegóły tenantu";
+}
+
+<div class="page-heading">
+    <div>
+        <h1 class="page-title">@Model.Name</h1>
+        <p class="page-subtitle">@Model.Domain · @Model.Slug</p>
+    </div>
+    <a asp-action="Index" class="btn btn-outline-secondary">Powrót</a>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-4">
+        <div class="dashboard-card h-100">
+            <h3>Podstawowe informacje</h3>
+            <dl class="row mb-0">
+                <dt class="col-sm-5">Status</dt>
+                <dd class="col-sm-7">@Model.Status</dd>
+                <dt class="col-sm-5">Plan</dt>
+                <dd class="col-sm-7">@Model.PlanType</dd>
+                <dt class="col-sm-5">Aktywne</dt>
+                <dd class="col-sm-7">@(Model.IsActive ? "Tak" : "Nie")</dd>
+                <dt class="col-sm-5">Utworzono</dt>
+                <dd class="col-sm-7">@Model.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy")</dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="dashboard-card h-100">
+            <h3>Użytkownicy</h3>
+            @if (Model.Users.Any())
+            {
+                <ul class="list-group list-group-flush">
+                    @foreach (var user in Model.Users.Take(6))
+                    {
+                        <li class="list-group-item px-0">@user.Email</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p class="text-muted mb-0">Brak użytkowników w tym tenantie.</p>
+            }
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="dashboard-card h-100">
+            <h3>Pojazdy</h3>
+            @if (Model.Vehicles.Any())
+            {
+                <ul class="list-group list-group-flush">
+                    @foreach (var vehicle in Model.Vehicles.Take(6))
+                    {
+                        <li class="list-group-item px-0">@vehicle.Make @vehicle.Model · @vehicle.RegistrationNumber</li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p class="text-muted mb-0">Brak pojazdów dla tego tenantu.</p>
+            }
+        </div>
+    </div>
+</div>

@@ -10,6 +10,8 @@ namespace FleetManagement.Core.Models
     public class AppUser : IdentityUser
     {
         public string? FullName { get; set; }
+        public int? TenantId { get; set; }
+        public Tenant? Tenant { get; set; }
         public int? VehicleId { get; set; }
         public Vehicle? Vehicle { get; set; }
         public bool MustChangePassword { get; set; } = false;

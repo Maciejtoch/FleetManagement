@@ -9,6 +9,8 @@ namespace FleetManagement.Core.Models
     public class VehicleLocation
     {
         public int Id { get; set; }
+        public int? TenantId { get; set; }
+        public Tenant? Tenant { get; set; }
 
         public int VehicleId { get; set; }
         public Vehicle? Vehicle { get; set; }
